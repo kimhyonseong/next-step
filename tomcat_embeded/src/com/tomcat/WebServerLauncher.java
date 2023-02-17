@@ -14,6 +14,7 @@ public class WebServerLauncher {
     String webappDirLocation = "webapp/";
     Tomcat tomcat = new Tomcat();
     tomcat.setPort(8080);
+    tomcat.getConnector();
 
     tomcat.addWebapp("/", new File(webappDirLocation).getAbsolutePath());
     log.info("configuring app with basedir : {}",new File("./"+webappDirLocation).getAbsolutePath());
