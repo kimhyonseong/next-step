@@ -37,12 +37,24 @@ public class LoginServlet extends HttpServlet {
 
     User user = DataBase.findUserById(request.getParameter("userId"));
 
+    if (user == null) {
+      log.error("User is null");
+      request.setAttribute("error","error");
+      RequestDispatcher rd = request.getRequestDispatcher("/user/login.jsp");
+      rd.forward(request,response);
+      return;
+    }
+
     if (user.getPassword().equals(request.getParameter("password"))) {
       HttpSession session = request.getSession();
       session.setAttribute("user", user);
-      response.sendRedirect("/");
+
       log.info("login user : {}", user);
+      log.info("session attribute : {}",session.getAttribute("user"));
+
+      response.sendRedirect("/");
     } else {
+      log.error("matching error");
       request.setAttribute("error","error");
       RequestDispatcher rd = request.getRequestDispatcher("/user/login.jsp");
       rd.forward(request,response);

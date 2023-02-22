@@ -3,6 +3,7 @@ package next.web;
 import core.db.DataBase;
 import next.dao.UserDao;
 import next.model.User;
+import next.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -21,12 +23,19 @@ public class UpdateUserFormServlet extends HttpServlet{
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    String userId = req.getParameter("user");
-    User user = DataBase.findUserById(userId);
-    req.setAttribute("user",user);
+    HttpSession session = req.getSession();
+    Object value = session.getAttribute("user");
+    log.info("value : {}",value);
 
-    RequestDispatcher rd = req.getRequestDispatcher("/user/update.jsp");
-    rd.forward(req,resp);
+    if (value == null) {
+      Utils.getInstance().goLogin(resp);
+    } else {
+      User user = (User) value;
+      req.setAttribute("user", user);
+
+      RequestDispatcher rd = req.getRequestDispatcher("/user/update.jsp");
+      rd.forward(req,resp);
+    }
   }
 
   @Override
