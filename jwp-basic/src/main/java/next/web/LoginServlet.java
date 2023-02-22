@@ -32,11 +32,20 @@ public class LoginServlet extends HttpServlet {
   }
 
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    log.info("input : {}/{}",request.getParameter("userId"),request.getParameter("password"));
+
     User user = DataBase.findUserById(request.getParameter("userId"));
-    HttpSession session = request.getSession();
-    session.setAttribute("user",user);
-    response.sendRedirect("/index.html");
-    log.info("login user : {}",user);
+
+    if (user.getPassword().equals(request.getParameter("password"))) {
+      HttpSession session = request.getSession();
+      session.setAttribute("user", user);
+      response.sendRedirect("/");
+      log.info("login user : {}", user);
+    } else {
+      request.setAttribute("error","error");
+      RequestDispatcher rd = request.getRequestDispatcher("/user/login.jsp");
+      rd.forward(request,response);
+    }
   }
 }
