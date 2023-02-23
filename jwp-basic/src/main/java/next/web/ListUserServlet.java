@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import core.db.DataBase;
 import next.model.User;
+import next.utils.UserSessionUtils;
 import next.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +24,14 @@ public class ListUserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = UserSessionUtils.getUserFromSession(req.getSession());
 
-        if (user == null) {
+        if (!UserSessionUtils.isLogined(req.getSession())) {
             log.error("user is NULL");
             Utils.getInstance().goLogin(resp);
             return;
         }
+
         req.setAttribute("users", DataBase.findAll());
         req.setAttribute("myId", user.getUserId());
         RequestDispatcher rd = req.getRequestDispatcher("/user/list.jsp");
