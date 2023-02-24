@@ -19,7 +19,7 @@ public class RequestMapping {
     mappings.put("/user/login", new LoginController());
     mappings.put("/user/logout", new LogoutController());
     mappings.put("/user/updateForm", new ForwardController("/user/update.jsp"));
-    mappings.put("/user/update", new LogoutController());
+    mappings.put("/user/update", new UpdateUserController());
     mappings.put("/user/profile",new ProfileController());
 
     log.info("Initialized Request Mapping!");
