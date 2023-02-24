@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/user/update")
+//@WebServlet("/user/update")
 public class UpdateUserFormServlet extends HttpServlet{
   private static final Logger log = LoggerFactory.getLogger(UpdateUserFormServlet.class);
 

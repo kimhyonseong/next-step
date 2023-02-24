@@ -17,7 +17,7 @@ import next.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@WebServlet("/user/list")
+//@WebServlet("/user/list")
 public class ListUserServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(ListUserServlet.class);
     private static final long serialVersionUID = 1L;

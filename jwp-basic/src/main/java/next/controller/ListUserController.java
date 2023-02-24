@@ -14,6 +14,6 @@ public class ListUserController implements Controller{
     }
 
     request.setAttribute("users", DataBase.findAll());
-    return "/user/list";
+    return "/user/list.jsp";
   }
 }

@@ -11,7 +11,7 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse2">
             <ul class="nav navbar-nav navbar-right">
-                <li<%= request.getServletPath().equals("/index.jsp") ? " class=\"active\"" : "" %>><a href="/">Posts</a></li>
+                <li<%= request.getServletPath().equals("/home.jsp") ? " class=\"active\"" : "" %>><a href="/">Posts</a></li>
                 <c:choose>
                     <c:when test="${not empty sessionScope.user}">
                         <li><a href="/user/logout" role="button">로그아웃</a></li>
@@ -21,11 +21,11 @@
                     </c:when>
                     <c:otherwise>
                         <li<%= request.getServletPath().equals("/user/login.jsp") ? " class=\"active\"" : "" %>>
-                            <a href="/user/login" role="button">로그인
+                            <a href="/user/loginForm" role="button">로그인
                             </a>
                         </li>
                         <li<%= request.getServletPath().equals("/user/form.jsp") ? " class=\"active\"" : "" %>>
-                            <a href="/user/create" role="button">회원가입</a>
+                            <a href="/user/createForm" role="button">회원가입</a>
                         </li>
                     </c:otherwise>
                 </c:choose>

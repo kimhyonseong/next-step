@@ -15,8 +15,8 @@ public class HomeServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    log.info("In to the index.jsp");
-    RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+    log.info("In to the home.jsp");
+    RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
     rd.forward(request,response);
   }
 }
