@@ -87,8 +87,14 @@ public class UserDao {
 
         try (Connection con = ConnectionManager.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql);
-             ResultSet rs = null){
-            
+             )
+        {
+            pstmt.setString(1, user.getPassword());
+            pstmt.setString(2, user.getName());
+            pstmt.setString(3, user.getEmail());
+            pstmt.setString(4, user.getUserId());
+
+            pstmt.executeUpdate();
         }
     }
 }
