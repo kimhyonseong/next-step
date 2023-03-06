@@ -1,6 +1,7 @@
 package core.mvc;
 
 import next.controller.*;
+import next.controller.user.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
