@@ -10,13 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcTemplate {
-  public <T> List<T> query(String query,PreparedStatementSetter setter, RowMapper<T> rowMapper) throws DataAccessException {
+  public <T> List<T> query(String query,RowMapper<T> rowMapper,Object... setter) throws DataAccessException {
     List<T> objects = new ArrayList<>();
 
     try (Connection con = ConnectionManager.getConnection();
          PreparedStatement pstmt = con.prepareStatement(query)
     ) {
-      setter.setValues(pstmt);
+      for (int i=0; i<setter.length; i++) {
+        pstmt.setObject(i+1,setter[i]);
+      }
 
       try(ResultSet rs = pstmt.executeQuery()) {
         while (rs.next()) {
@@ -29,8 +31,8 @@ public class JdbcTemplate {
     }
   }
 
-  public <T> T queryForObject(String sql,PreparedStatementSetter setter,RowMapper<T> rowMapper) throws DataAccessException {
-    List<T> result = query(sql, setter, rowMapper);
+  public <T> T queryForObject(String sql,RowMapper<T> rowMapper, Object... setter) throws DataAccessException {
+    List<T> result = query(sql, rowMapper, setter);
 
     if (result.isEmpty()) {
       return null;
@@ -38,12 +40,14 @@ public class JdbcTemplate {
     return result.get(0);
   }
 
-  public void update(String sql,PreparedStatementSetter setter) throws DataAccessException {
+  public void update(String sql,Object... params) throws DataAccessException {
 
     try (Connection con = ConnectionManager.getConnection();
          PreparedStatement pstmt = con.prepareStatement(sql)) {
 
-      setter.setValues(pstmt);
+      for(int i=0; i<params.length; i++) {
+        pstmt.setObject(i+1,params[i]);
+      }
       pstmt.executeUpdate();
     } catch (SQLException e) {
       throw new DataAccessException(e);
