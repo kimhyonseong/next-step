@@ -1,17 +1,32 @@
 package next.dao;
 
 import core.jdbc.JdbcTemplate;
+import core.jdbc.KeyHolder;
 import next.model.Answer;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public class AnswerDao {
-  public void insert(Answer answer) {
+  public Answer insert(Answer answer) {
     String sql = "INSERT INTO ANSWERS(writer,contents,createdDate,questionId) VALUES(?,?,?,?)";
 
+    KeyHolder keyHolder = new KeyHolder();
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
-    jdbcTemplate.update(sql,answer.getWriter(),answer.getContents(),answer.getCreatedDate(),answer.getQuestionId());
+    jdbcTemplate.update((Connection connection) -> {
+      PreparedStatement pstmt = connection.prepareStatement(sql);
+      pstmt.setString(1, answer.getWriter());
+      pstmt.setString(2, answer.getContents());
+      pstmt.setTimestamp(3, new Timestamp(answer.getTimeFromCreateDate()));
+      pstmt.setLong(4, answer.getQuestionId());
+      return pstmt;
+    },keyHolder);
+
+    return findById(keyHolder.getId());
   }
 
   public Answer findById(long answerId) {
