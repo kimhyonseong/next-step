@@ -74,7 +74,9 @@ public class JdbcTemplate {
   public PreparedStatementSetter createPrepareStatementSetter(Object... params) {
     return pstmt -> {
       for(int i=0; i<params.length; i++) {
-        pstmt.setObject(i+1,params[i]);
+        if (params[i] != null) {
+          pstmt.setObject(i + 1, params[i]);
+        }
       }
     };
   }

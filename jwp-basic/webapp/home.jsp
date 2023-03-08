@@ -14,7 +14,7 @@
    <div class="col-md-12 col-sm-12 col-lg-10 col-lg-offset-1">
       <div class="panel panel-default qna-list">
           <ul class="list">
-              <c:forEach items="questions" var="question">
+              <c:forEach items="${questions}" var="question">
               <li>
                   <div class="wrap">
                       <div class="main">

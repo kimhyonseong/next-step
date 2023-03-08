@@ -23,7 +23,9 @@ public class QuestionShowController implements Controller {
     AnswerDao answerDao = new AnswerDao();
 
     request.setAttribute("question",questionDao.findById(questionId));
-    request.setAttribute("answer",answerDao.findAllByQuestionId(questionId));
+    request.setAttribute("answers",answerDao.findAllByQuestionId(questionId));
+
+    log.info("findAllByQuestionId = {}",answerDao.findAllByQuestionId(questionId));
     return "/qna/show.jsp";
   }
 }

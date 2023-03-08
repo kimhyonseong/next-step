@@ -52,15 +52,12 @@
 
               <div class="qna-comment">
                   <div class="qna-comment-slipp">
-                      <p class="qna-comment-count"><strong>2</strong>개의 의견</p>
+                      <p class="qna-comment-count"><strong>${question.countOfAnswer}</strong>개의 의견</p>
                       <div class="qna-comment-slipp-articles">
 
                           <c:forEach items="${answers}" var="answer">
                           <article class="article">
                               <div class="article-header">
-                                  <div class="article-header-thumb">
-                                      <img src="https://graph.facebook.com/v2.3/1324855987/picture" class="article-author-thumb" alt="">
-                                  </div>
                                   <div class="article-header-text">
                                       <div class="article-header-thumb">
                                           <img src="https://graph.facebook.com/v2.3/1324855987/picture" class="article-author-thumb" alt="">
