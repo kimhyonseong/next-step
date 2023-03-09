@@ -1,6 +1,8 @@
 package next.controller.qna;
 
 import core.mvc.Controller;
+import core.mvc.view.JspView;
+import core.mvc.view.View;
 import next.dao.AnswerDao;
 import next.dao.QuestionDao;
 import next.model.Question;
@@ -14,7 +16,7 @@ public class QuestionShowController implements Controller {
   private static final Logger log = LoggerFactory.getLogger(QuestionShowController.class);
 
   @Override
-  public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  public View execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
     log.info("questionId = {}",request.getParameter("questionId"));
 
     long questionId = Long.parseLong(request.getParameter("questionId"));
@@ -26,6 +28,6 @@ public class QuestionShowController implements Controller {
     request.setAttribute("answers",answerDao.findAllByQuestionId(questionId));
 
     log.info("findAllByQuestionId = {}",answerDao.findAllByQuestionId(questionId));
-    return "/qna/show.jsp";
+    return new JspView("/qna/show.jsp");
   }
 }

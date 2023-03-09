@@ -1,5 +1,6 @@
 package core.mvc;
 
+import core.mvc.view.View;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(name = "dispatcher", urlPatterns = "/",loadOnStartup = 1)
 public class DispatcherServlet extends HttpServlet {
@@ -32,20 +36,10 @@ public class DispatcherServlet extends HttpServlet {
 
     Controller controller = rm.findController(requestUri);
     try {
-      String viewName = controller.execute(request,response);
-      move(viewName,request,response);
+      View view = controller.execute(request,response);
+      view.render(request,response);
     } catch (Exception e) {
       log.error("Exception",e);
     }
-  }
-
-  private void move(String viewName,HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-    if (viewName.startsWith(DEFAULT_REDIRECT_PREFIX)) {
-      response.sendRedirect(viewName.substring(DEFAULT_REDIRECT_PREFIX.length()));
-      return;
-    }
-
-    RequestDispatcher rd = request.getRequestDispatcher(viewName);
-    rd.forward(request,response);
   }
 }
