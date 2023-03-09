@@ -1,5 +1,5 @@
 String.prototype.format = function() {
-  var args = arguments;
+  let args = arguments;
   return this.replace(/{(\d+)}/g, function(match, number) {
     return typeof args[number] != 'undefined'
         ? args[number]
@@ -21,6 +21,7 @@ $(document).ready(function(){/* jQuery toggle layout */
   });
 
   $(".addAnswer").click(addAnswer);
+  $(".qna-comment").on("click",".link-delete-article",deleteAnswer);
 });
 
 function addAnswer(e) {
@@ -34,13 +35,8 @@ function addAnswer(e) {
     url:`/api/qna/addAnswer`,
     data:queryString,
     dataType:`json`,
-    error:(e) => {
-      console.log(e);
-    },
-    success: (e) => {
-      console.log(e);
-      addAnswerSuccess(e,null);
-    }
+    error:(e) => console.log(e),
+    success: (data) => addAnswerSuccess(data,null)
   })
 }
 
@@ -51,6 +47,37 @@ function addAnswerSuccess(json, status) {
       new Date(json.createdDate),
       json.contents,
       json.answerId);
-  console.log(`json.answerId : ${json.answerId}`)
   $(".qna-comment-slipp-articles").prepend(template);
+  $("input[name=writer]").val("");
+  $("textarea[name=contents]").val("");
+}
+
+function deleteAnswer(e) {
+  e.preventDefault();
+
+  if (confirm("정말 삭제하시겠습니까?")) {
+    const queryString = $(".form-delete").serialize();
+    const target = $(this);
+
+    $.ajax({
+      type: `post`,
+      url: `/api/qna/deleteAnswer`,
+      data: queryString,
+      dataType: `json`,
+      error: (e) => {
+        console.error(e);
+        alert("오류로 인해 댓글이 삭제되지 않았습니다.");
+      },
+      success: (data) => deleteAnswerSuccess(data,target)
+    })
+  }
+}
+
+function deleteAnswerSuccess(json, target) {
+  if (json.status) {
+    target.closest(".article").remove();
+    alert("댓글이 삭제되었습니다.");
+  } else {
+    alert("오류로 인해 댓글이 삭제되지 않았습니다.");
+  }
 }

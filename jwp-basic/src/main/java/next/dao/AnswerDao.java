@@ -1,17 +1,21 @@
 package next.dao;
 
+import core.exception.DataAccessException;
 import core.jdbc.JdbcTemplate;
 import core.jdbc.KeyHolder;
 import next.model.Answer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 public class AnswerDao {
+  private static final Logger log = LoggerFactory.getLogger(AnswerDao.class);
+
   public Answer insert(Answer answer) {
     String sql = "INSERT INTO ANSWERS(writer,contents,createdDate,questionId) VALUES(?,?,?,?)";
 
@@ -66,5 +70,27 @@ public class AnswerDao {
             rs.getDate("createdDate"),
             rs.getLong("questionId")
     ), (Object) null);
+  }
+
+
+  public long delete(long answerId) {
+    String selectSql = "SELECT answerId,writer,contents,createdDate,questionId FROM ANSWERS WHERE answerId = ?";
+    String deleteSql = "DELETE FROM ANSWERS WHERE answerId = ?";
+
+    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    Answer answer = jdbcTemplate.queryForObject(selectSql,(ResultSet rs)-> new Answer(
+            rs.getLong("answerId"),
+            rs.getString("writer"),
+            rs.getString("contents"),
+            rs.getDate("createdDate"),
+            rs.getLong("questionId")
+    ),answerId);
+
+    if (answer == null) {
+      return 0;
+    }
+
+    jdbcTemplate.update(deleteSql,answerId);
+    return answerId;
   }
 }

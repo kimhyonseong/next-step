@@ -2,6 +2,7 @@ package core.mvc;
 
 import next.controller.*;
 import next.controller.qna.AddAnswerController;
+import next.controller.qna.DeleteAnswerController;
 import next.controller.qna.QuestionShowController;
 import next.controller.qna.QuestionWriteController;
 import next.controller.user.*;
@@ -29,6 +30,7 @@ public class RequestMapping {
     mappings.put("/qna/write",new QuestionWriteController());
     mappings.put("/qna/writeForm",new ForwardController("/qna/form.jsp"));
     mappings.put("/api/qna/addAnswer",new AddAnswerController());
+    mappings.put("/api/qna/deleteAnswer",new DeleteAnswerController());
 
     log.info("Initialized Request Mapping!");
   }
