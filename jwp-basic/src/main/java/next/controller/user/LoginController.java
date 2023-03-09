@@ -1,6 +1,8 @@
 package next.controller.user;
 
-import core.mvc.Controller;
+import core.mvc.ModelAndView;
+import core.mvc.controller.AbstractController;
+import core.mvc.controller.Controller;
 import core.mvc.view.JspView;
 import core.mvc.view.View;
 import next.dao.UserDao;
@@ -13,11 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 
-public class LoginController implements Controller {
+public class LoginController extends AbstractController {
   private static final Logger log = LoggerFactory.getLogger(LoginController.class);
 
   @Override
-  public View execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
     log.info("input : {}/{}",request.getParameter("userId"),request.getParameter("password"));
 
     User user = null;
@@ -31,8 +33,7 @@ public class LoginController implements Controller {
 
     if (user == null) {
       log.error("User is null");
-      request.setAttribute("error","error");
-      return new JspView("/user/login.jsp");
+      return jspView("/user/login.jsp").addObject("error","error");
     }
 
     if (user.getPassword().equals(request.getParameter("password"))) {
@@ -42,11 +43,10 @@ public class LoginController implements Controller {
       log.info("login user : {}", user);
       log.info("session attribute : {}",session.getAttribute("user"));
 
-      return new JspView("redirect:/");
+      return jspView("redirect:/");
     } else {
       log.error("matching error");
-      request.setAttribute("error","error");
-      return new JspView("/user/login.jsp");
+      return jspView("/user/login.jsp").addObject("error","error");
     }
   }
 }

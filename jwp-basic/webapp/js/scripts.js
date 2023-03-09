@@ -41,12 +41,13 @@ function addAnswer(e) {
 }
 
 function addAnswerSuccess(json, status) {
+  console.log(json);
   const answerTemplate = $("#answerTemplate").html();
   const template = answerTemplate.format(
-      json.writer,
-      new Date(json.createdDate),
-      json.contents,
-      json.answerId);
+      json.answer.writer,
+      new Date(json.answer.createdDate),
+      json.answer.contents,
+      json.answer.answerId);
   $(".qna-comment-slipp-articles").prepend(template);
   $("input[name=writer]").val("");
   $("textarea[name=contents]").val("");
@@ -74,7 +75,8 @@ function deleteAnswer(e) {
 }
 
 function deleteAnswerSuccess(json, target) {
-  if (json.status) {
+  console.log(json);
+  if (json.result.status) {
     target.closest(".article").remove();
     alert("댓글이 삭제되었습니다.");
   } else {

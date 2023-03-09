@@ -2,7 +2,9 @@ package next.controller.user;
 
 import core.db.DataBase;
 import core.exception.DataAccessException;
-import core.mvc.Controller;
+import core.mvc.ModelAndView;
+import core.mvc.controller.AbstractController;
+import core.mvc.controller.Controller;
 import core.mvc.view.JspView;
 import core.mvc.view.View;
 import next.dao.UserDao;
@@ -13,11 +15,11 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class CreateUserController implements Controller {
+public class CreateUserController extends AbstractController {
   private static final Logger log = LoggerFactory.getLogger(CreateUserController.class);
 
   @Override
-  public View execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
     User user = new User(request.getParameter("userId"), request.getParameter("password"),
             request.getParameter("name"), request.getParameter("email"));
 
@@ -28,6 +30,6 @@ public class CreateUserController implements Controller {
       log.error("Sql exception",e);
     }
     DataBase.addUser(user);
-    return new JspView("redirect:/");
+    return jspView("redirect:/");
   }
 }

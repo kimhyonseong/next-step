@@ -1,10 +1,10 @@
 package core.mvc;
 
+import core.mvc.controller.Controller;
 import core.mvc.view.View;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,9 +35,11 @@ public class DispatcherServlet extends HttpServlet {
     log.debug("Method : {},Request URI : {}",request.getMethod(),requestUri);
 
     Controller controller = rm.findController(requestUri);
+
     try {
-      View view = controller.execute(request,response);
-      view.render(request,response);
+      ModelAndView mav = controller.execute(request,response);
+      View view = mav.getView();
+      view.render(mav.getModel(),request,response);
     } catch (Exception e) {
       log.error("Exception",e);
     }

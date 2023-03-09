@@ -1,16 +1,18 @@
 package next.controller.qna;
 
-import core.mvc.Controller;
+import core.mvc.ModelAndView;
+import core.mvc.controller.AbstractController;
+import core.mvc.controller.Controller;
 import core.mvc.view.JspView;
 import core.mvc.view.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class QuestionWriteController implements Controller {
+public class QuestionWriteController extends AbstractController {
   @Override
-  public View execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
     // 로직
-    return new JspView("redirect:/");
+    return jspView("redirect:/");
   }
 }

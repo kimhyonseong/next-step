@@ -18,25 +18,13 @@ public class JsonView implements View{
   public JsonView() {}
 
   @Override
-  public void render(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  public void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
     response.setContentType("application/json;charset=UTF-8");
 
     ObjectMapper mapper = new ObjectMapper();
     PrintWriter out = response.getWriter();
 
-    out.print(mapper.writeValueAsString(createModel(request)));
+    out.print(mapper.writeValueAsString(model));
     log.debug("Map : {}",request);
-  }
-
-  private Map<String, Object> createModel(HttpServletRequest request) {
-    Enumeration<String> names = request.getAttributeNames();
-    Map<String, Object> model = new HashMap<>();
-
-    while (names.hasMoreElements()) {
-      String name = names.nextElement();
-      model.put(name, request.getAttribute(name));
-    }
-
-    return model;
   }
 }
