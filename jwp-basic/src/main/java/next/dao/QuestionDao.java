@@ -1,19 +1,32 @@
 package next.dao;
 
-import core.exception.DataAccessException;
-import core.jdbc.ConnectionManager;
 import core.jdbc.JdbcTemplate;
+import core.jdbc.KeyHolder;
 import next.model.Question;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class QuestionDao {
-  public void insert(Question question) {
+  public long insert(Question question) {
     String sql = "INSERT INTO QUESTIONS(writer,title,contents,createdDate) VALUES(?,?,?,?)";
 
+    KeyHolder keyHolder = new KeyHolder();
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     jdbcTemplate.update(sql,question.getWriter(),question.getTitle(),question.getContents(),question.getCreatedDate());
+    jdbcTemplate.update((Connection con) ->{
+      PreparedStatement pstmt = con.prepareStatement(sql);
+      pstmt.setString(1, question.getWriter());
+      pstmt.setString(2, question.getTitle());
+      pstmt.setString(3, question.getContents());
+      pstmt.setTimestamp(4, new Timestamp(question.getTimeCreatedDate()));
+      return pstmt;
+    }, keyHolder);
+
+    return keyHolder.getId();
   }
 
   public void update(Question question) {

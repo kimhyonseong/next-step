@@ -59,6 +59,10 @@ public class Question {
     return createdDate;
   }
 
+  public long getTimeCreatedDate() {
+    return createdDate.getTime();
+  }
+
   public void setCreatedDate(Date createdDate) {
     this.createdDate = createdDate;
   }

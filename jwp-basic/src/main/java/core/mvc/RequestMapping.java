@@ -5,8 +5,8 @@ import core.mvc.controller.ForwardController;
 import next.controller.*;
 import next.controller.qna.AddAnswerController;
 import next.controller.qna.DeleteAnswerController;
-import next.controller.qna.QuestionShowController;
-import next.controller.qna.QuestionWriteController;
+import next.controller.qna.ShowQuestionController;
+import next.controller.qna.AddQuestionController;
 import next.controller.user.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +20,7 @@ public class RequestMapping {
 
   void initMapping() {
     mappings.put("/",new HomeController());
+    mappings.put("/error", new ForwardController("/error/error.jsp"));
     mappings.put("/user/createForm", new ForwardController("/user/form.jsp"));
     mappings.put("/user/create",new CreateUserController());
     mappings.put("/user/loginForm", new ForwardController("/user/login.jsp"));
@@ -28,8 +29,8 @@ public class RequestMapping {
     mappings.put("/user/updateForm", new UpdateUserFormController());
     mappings.put("/user/update", new UpdateUserController());
     mappings.put("/user/profile",new ProfileController());
-    mappings.put("/qna/show",new QuestionShowController());
-    mappings.put("/qna/write",new QuestionWriteController());
+    mappings.put("/qna/show",new ShowQuestionController());
+    mappings.put("/qna/write",new AddQuestionController());
     mappings.put("/qna/writeForm",new ForwardController("/qna/form.jsp"));
     mappings.put("/api/qna/addAnswer",new AddAnswerController());
     mappings.put("/api/qna/deleteAnswer",new DeleteAnswerController());
