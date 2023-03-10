@@ -16,7 +16,6 @@ public class QuestionDao {
 
     KeyHolder keyHolder = new KeyHolder();
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
-    jdbcTemplate.update(sql,question.getWriter(),question.getTitle(),question.getContents(),question.getCreatedDate());
     jdbcTemplate.update((Connection con) ->{
       PreparedStatement pstmt = con.prepareStatement(sql);
       pstmt.setString(1, question.getWriter());

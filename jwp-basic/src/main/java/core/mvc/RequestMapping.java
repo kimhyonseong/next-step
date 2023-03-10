@@ -3,10 +3,7 @@ package core.mvc;
 import core.mvc.controller.Controller;
 import core.mvc.controller.ForwardController;
 import next.controller.*;
-import next.controller.qna.AddAnswerController;
-import next.controller.qna.DeleteAnswerController;
-import next.controller.qna.ShowQuestionController;
-import next.controller.qna.AddQuestionController;
+import next.controller.qna.*;
 import next.controller.user.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +28,7 @@ public class RequestMapping {
     mappings.put("/user/profile",new ProfileController());
     mappings.put("/qna/show",new ShowQuestionController());
     mappings.put("/qna/write",new AddQuestionController());
-    mappings.put("/qna/writeForm",new ForwardController("/qna/form.jsp"));
+    mappings.put("/qna/writeForm",new QuestionFormController());
     mappings.put("/api/qna/addAnswer",new AddAnswerController());
     mappings.put("/api/qna/deleteAnswer",new DeleteAnswerController());
 

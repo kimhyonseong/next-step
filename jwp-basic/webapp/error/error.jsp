@@ -3,7 +3,7 @@
 <script>
     alert("${errorMsg}");
 
-    if ("${location}".includes("redirect:")) {
+    if ("${location}".length > 0) {
         location.href = "${location}";
     } else {
         history.back();
