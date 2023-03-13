@@ -31,7 +31,7 @@ https://github.com/slipp/jwp-basic/tree/step0-getting-started
 6. 한글 깨지는 문제 해결하기 - 
 7. next.web.qna package의 ShowController는 멀티 쓰레드 상황에서 문제가 발생하는 이유에 대해 설명하라.
 8. 답변하기 기능 사용 시 댓글수 증가 하도록 데이터베이스를 이용하여 구현하기 - 
-9. 질문 목록 API로 구현하기
+9. 질문 목록 API로 구현하기 - 완료
 10. 댓글 삭제 기능 구현하기
 11. 질문 수정 기능 구현하기
 12. JdbcTemplate 하나만 생성되게 하기

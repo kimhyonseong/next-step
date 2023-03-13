@@ -13,30 +13,7 @@
 <div class="container" id="main">
    <div class="col-md-12 col-sm-12 col-lg-10 col-lg-offset-1">
       <div class="panel panel-default qna-list">
-          <ul class="list">
-              <c:forEach items="${questions}" var="question">
-              <li>
-                  <div class="wrap">
-                      <div class="main">
-                          <strong class="subject">
-                              <a href="/qna/show?questionId=${question.questionId}">${question.title}</a>
-                          </strong>
-                          <div class="auth-info">
-                              <i class="icon-add-comment"></i>
-                              <span class="time">
-                                  <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${question.createdDate}" />
-                              </span>
-                              <a href="user/profile.jsp" class="author">${question.writer}</a>
-                          </div>
-                          <div class="reply" title="댓글">
-                              <i class="icon-reply"></i>
-                              <span class="point">${question.countOfAnswer}</span>
-                          </div>
-                      </div>
-                  </div>
-              </li>
-              </c:forEach>
-          </ul>
+          <ul class="list"></ul>
           <div class="row">
               <div class="col-md-3"></div>
               <div class="col-md-6 text-center">
@@ -139,5 +116,8 @@
 <script src="js/jquery-2.2.0.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/scripts.js"></script>
+<script>
+    questionList();
+</script>
 	</body>
 </html>

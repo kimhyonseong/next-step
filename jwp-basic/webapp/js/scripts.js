@@ -83,3 +83,44 @@ function deleteAnswerSuccess(json, target) {
     alert("오류로 인해 댓글이 삭제되지 않았습니다.");
   }
 }
+
+function questionList() {
+  let template = `<li>
+                  <div class="wrap">
+                      <div class="main">
+                          <strong class="subject">
+                              <a href="/qna/show?questionId=QUESTION_ID">TITLE</a>
+                          </strong>
+                          <div class="auth-info">
+                              <i class="icon-add-comment"></i>
+                              <span class="time">
+                                  <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="CREATE_DATE" />
+                              </span>
+                              <a href="user/profile.jsp" class="author">WRITER</a>
+                          </div>
+                          <div class="reply" title="댓글">
+                              <i class="icon-reply"></i>
+                              <span class="point">COUNT_ANSWER</span>
+                          </div>
+                      </div>
+                  </div>
+              </li>`;
+  let html = ``;
+  $.ajax({
+    url: `/api/qna/list`,
+    method: `get`,
+    dataType: `json`,
+    error: (e) => {console.log(e)},
+    success: (data) => {
+      console.log(data.questions);
+      for(let i=0; i<data.questions.length; i++) {
+        html += template.replace("QUESTION_ID",data.questions[i].questionId)
+            .replace("TITLE",data.questions[i].title)
+            .replace("WRITER",data.questions[i].writer)
+            .replace("CREATE_DATE",data.questions[i].createdDate)
+            .replace("COUNT_ANSWER",data.questions[i].countOfAnswer)
+      }
+      $(".list").html(html);
+    }
+  })
+}
