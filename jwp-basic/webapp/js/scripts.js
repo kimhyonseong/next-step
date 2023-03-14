@@ -51,6 +51,7 @@ function addAnswerSuccess(json, status) {
   $(".qna-comment-slipp-articles").prepend(template);
   $("input[name=writer]").val("");
   $("textarea[name=contents]").val("");
+  $(".qna-comment-count>strong").text(json.answerCont);
 }
 
 function deleteAnswer(e) {
@@ -79,6 +80,7 @@ function deleteAnswerSuccess(json, target) {
   if (json.result.status) {
     target.closest(".article").remove();
     alert("댓글이 삭제되었습니다.");
+    $(".qna-comment-count>strong").text($(".qna-comment-count>strong").text()-1);
   } else {
     alert("오류로 인해 댓글이 삭제되지 않았습니다.");
   }

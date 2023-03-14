@@ -6,6 +6,8 @@ import core.mvc.controller.Controller;
 import core.mvc.view.JsonView;
 import core.mvc.view.View;
 import next.dao.AnswerDao;
+import next.dao.QuestionDao;
+import next.model.Question;
 import next.model.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

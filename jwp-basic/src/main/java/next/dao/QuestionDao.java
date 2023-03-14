@@ -34,8 +34,17 @@ public class QuestionDao {
     jdbcTemplate.update(sql,question.getTitle(),question.getContents());
   }
 
+  public Question updateCountOfAnswerByQuestionId(long questionId) {
+    String sql = "UPDATE QUESTIONS SET countOfAnswer = countOfAnswer+1 WHERE questionId = ?";
+    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    jdbcTemplate.update(sql,questionId);
+
+    return findById(questionId);
+  }
+
   public Question findById(long questionId) {
-    String sql = "SELECT questionId,writer,title,contents,createdDate,countOfAnswer FROM QUESTIONS WHERE questionId = ?";
+    String sql = "SELECT questionId,writer,title,contents,createdDate,countOfAnswer " +
+            "FROM QUESTIONS WHERE questionId = ?";
 
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     return jdbcTemplate.queryForObject(sql,(ResultSet rs) -> new Question(
