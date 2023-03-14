@@ -29,9 +29,9 @@ public class QuestionDao {
   }
 
   public void update(Question question) {
-    String sql = "UPDATE QUESTIONS SET title = ?,contents = ?";
+    String sql = "UPDATE QUESTIONS SET title = ?,contents = ? WHERE questionId = ?";
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
-    jdbcTemplate.update(sql,question.getTitle(),question.getContents());
+    jdbcTemplate.update(sql,question.getTitle(),question.getContents(),question.getQuestionId());
   }
 
   public Question updateCountOfAnswerByQuestionId(long questionId) {
