@@ -34,5 +34,5 @@ https://github.com/slipp/jwp-basic/tree/step0-getting-started
 9. 질문 목록 API로 구현하기 - 완료
 10. 댓글 삭제 기능 구현하기 - 완료
 11. 질문 수정 기능 구현하기 - 완료
-12. JdbcTemplate 하나만 생성되게 하기
-13. 질문 삭제 기능 구현하기
+12. JdbcTemplate 하나만 생성되게 하기 - 완료
+13. 질문 삭제 기능 구현하기 - 완료

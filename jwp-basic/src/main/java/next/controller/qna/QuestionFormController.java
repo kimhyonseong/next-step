@@ -23,7 +23,7 @@ public class QuestionFormController extends AbstractController {
 
     if (questionId != null && !questionId.equals("")) {
       QuestionDao questionDao = new QuestionDao();
-      Question question = questionDao.findById(Long.parseLong(questionId));
+      Question question = questionDao.findByIdAndUser(Long.parseLong(questionId),sessionUser);
 
       return jspView("/qna/form.jsp").addObject("question",question);
     }

@@ -9,6 +9,8 @@ import next.dao.AnswerDao;
 import next.dao.QuestionDao;
 import next.model.Question;
 import next.model.Result;
+import next.model.User;
+import next.utils.UserSessionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,9 +22,16 @@ public class DeleteAnswerController extends AbstractController {
 
   @Override
   public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    long answerId = Long.parseLong(request.getParameter("answerId"));
+    User sessionUser = UserSessionUtils.getUserFromSession(request.getSession());
+
+    if (sessionUser == null) {
+      return jspView("/error")
+              .addObject("errorMsg","로그인이 필요한 작업입니다.")
+              .addObject("location","/user/login");
+    }
     AnswerDao answerDao = new AnswerDao();
-    long deleteId =  answerDao.delete(answerId);
+    long answerId = Long.parseLong(request.getParameter("answerId"));
+    long deleteId =  answerDao.deleteByUser(answerId,sessionUser);
     log.debug("deleteId : {}",deleteId);
     Result result = Result.ok();
 

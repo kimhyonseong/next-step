@@ -10,6 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcTemplate {
+  private static JdbcTemplate jdbcTemplate;
+
+  private JdbcTemplate() {}
+
+  public static JdbcTemplate getJdbcTemplate() {
+    if (jdbcTemplate == null) {
+      jdbcTemplate = new JdbcTemplate();
+    }
+    return jdbcTemplate;
+  }
   public <T> List<T> query(String sql, RowMapper<T> rowMapper, PreparedStatementSetter setter) {
     List<T> objects = new ArrayList<>();
 

@@ -9,6 +9,8 @@ import next.dao.AnswerDao;
 import next.dao.QuestionDao;
 import next.model.Answer;
 import next.model.Question;
+import next.model.User;
+import next.utils.UserSessionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +22,17 @@ public class AddAnswerController extends AbstractController {
 
   @Override
   public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    User sessionUser = UserSessionUtils.getUserFromSession(request.getSession());
+
+    if (sessionUser == null) {
+      return jspView("/error")
+              .addObject("errorMsg","로그인이 필요한 작업입니다.")
+              .addObject("location","/user/login");
+    }
+
     Answer answer = new Answer(
             request.getParameter("writer"),
+            request.getParameter(sessionUser.getUserId()),
             request.getParameter("contents"),
             Long.parseLong(request.getParameter("questionId")));
     log.debug("answer : {}",answer);

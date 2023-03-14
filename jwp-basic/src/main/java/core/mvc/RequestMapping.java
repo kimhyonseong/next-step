@@ -30,6 +30,7 @@ public class RequestMapping {
     mappings.put("/qna/write",new AddQuestionController());
     mappings.put("/qna/writeForm",new QuestionFormController());
     mappings.put("/qna/modify",new ModifyQuestionController());
+    mappings.put("/qna/delete",new DeleterQuestionController());
     mappings.put("/api/qna/addAnswer",new AddAnswerController());
     mappings.put("/api/qna/deleteAnswer",new DeleteAnswerController());
     mappings.put("/api/qna/list",new ListQuestionController());

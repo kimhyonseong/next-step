@@ -4,6 +4,7 @@ import core.exception.DataAccessException;
 import core.jdbc.JdbcTemplate;
 import core.jdbc.KeyHolder;
 import next.model.Answer;
+import next.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,7 @@ public class AnswerDao {
     String sql = "INSERT INTO ANSWERS(writer,contents,createdDate,questionId) VALUES(?,?,?,?)";
 
     KeyHolder keyHolder = new KeyHolder();
-    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    JdbcTemplate jdbcTemplate = JdbcTemplate.getJdbcTemplate();
     jdbcTemplate.update((Connection connection) -> {
       PreparedStatement pstmt = connection.prepareStatement(sql);
       pstmt.setString(1, answer.getWriter());
@@ -34,12 +35,13 @@ public class AnswerDao {
   }
 
   public Answer findById(long answerId) {
-    String sql = "SELECT answerId,writer,contents,createdDate,questionId FROM ANSWERS WHERE answerId = ?";
+    String sql = "SELECT answerId,writer,userId,contents,createdDate,questionId FROM ANSWERS WHERE answerId = ?";
 
-    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    JdbcTemplate jdbcTemplate = JdbcTemplate.getJdbcTemplate();
     return jdbcTemplate.queryForObject(sql,(ResultSet rs)-> new Answer(
               rs.getLong("answerId"),
               rs.getString("writer"),
+              rs.getString("userId"),
               rs.getString("contents"),
               rs.getDate("createdDate"),
               rs.getLong("questionId")
@@ -47,12 +49,13 @@ public class AnswerDao {
   }
 
   public List<Answer> findAllByQuestionId(long questionId) {
-    String sql = "SELECT answerId,writer,contents,createdDate,questionId FROM ANSWERS WHERE questionId=?";
+    String sql = "SELECT answerId,writer,userId,contents,createdDate,questionId FROM ANSWERS WHERE questionId=?";
 
-    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    JdbcTemplate jdbcTemplate = JdbcTemplate.getJdbcTemplate();
     return jdbcTemplate.query(sql,(ResultSet rs)-> new Answer(
             rs.getLong("answerId"),
             rs.getString("writer"),
+            rs.getString("userId"),
             rs.getString("contents"),
             rs.getDate("createdDate"),
             rs.getLong("questionId")
@@ -60,12 +63,13 @@ public class AnswerDao {
   }
 
   public List<Answer> findAll() {
-    String sql = "SELECT answerId,writer,contents,createdDate,questionId FROM ANSWERS";
+    String sql = "SELECT answerId,writer,userId,contents,createdDate,questionId FROM ANSWERS";
 
-    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    JdbcTemplate jdbcTemplate = JdbcTemplate.getJdbcTemplate();
     return jdbcTemplate.query(sql,(ResultSet rs)-> new Answer(
             rs.getLong("answerId"),
             rs.getString("writer"),
+            rs.getString("userId"),
             rs.getString("contents"),
             rs.getDate("createdDate"),
             rs.getLong("questionId")
@@ -74,17 +78,40 @@ public class AnswerDao {
 
 
   public long delete(long answerId) {
-    String selectSql = "SELECT answerId,writer,contents,createdDate,questionId FROM ANSWERS WHERE answerId = ?";
+    String selectSql = "SELECT answerId,writer,userId,contents,createdDate,questionId FROM ANSWERS WHERE answerId = ?";
     String deleteSql = "DELETE FROM ANSWERS WHERE answerId = ?";
 
-    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    JdbcTemplate jdbcTemplate = JdbcTemplate.getJdbcTemplate();
     Answer answer = jdbcTemplate.queryForObject(selectSql,(ResultSet rs)-> new Answer(
             rs.getLong("answerId"),
             rs.getString("writer"),
+            rs.getString("userId"),
             rs.getString("contents"),
             rs.getDate("createdDate"),
             rs.getLong("questionId")
     ),answerId);
+
+    if (answer == null) {
+      return 0;
+    }
+
+    jdbcTemplate.update(deleteSql,answerId);
+    return answerId;
+  }
+
+  public long deleteByUser(long answerId, User user) {
+    String selectSql = "SELECT answerId,writer,userId,contents,createdDate,questionId FROM ANSWERS WHERE answerId = ?";
+    String deleteSql = "DELETE FROM ANSWERS WHERE answerId = ? AND userId = ?";
+
+    JdbcTemplate jdbcTemplate = JdbcTemplate.getJdbcTemplate();
+    Answer answer = jdbcTemplate.queryForObject(selectSql,(ResultSet rs)-> new Answer(
+            rs.getLong("answerId"),
+            rs.getString("writer"),
+            rs.getString("userId"),
+            rs.getString("contents"),
+            rs.getDate("createdDate"),
+            rs.getLong("questionId")
+    ),answerId,user.getUserId());
 
     if (answer == null) {
       return 0;

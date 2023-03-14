@@ -8,6 +8,8 @@ import core.mvc.view.View;
 import next.dao.QuestionDao;
 import next.model.Question;
 import next.model.Result;
+import next.model.User;
+import next.utils.UserSessionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,8 +21,17 @@ public class AddQuestionController extends AbstractController {
 
   @Override
   public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    User sessionUser = UserSessionUtils.getUserFromSession(request.getSession());
+
+    if (sessionUser == null) {
+      return jspView("/error")
+              .addObject("errorMsg","로그인이 필요한 작업입니다.")
+              .addObject("location","/user/login");
+    }
+
     Question question = new Question(
             request.getParameter("writer"),
+            request.getParameter(sessionUser.getUserId()),
             request.getParameter("title"),
             request.getParameter("contents"));
     log.debug("question : {}",question);

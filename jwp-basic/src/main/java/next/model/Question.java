@@ -5,18 +5,20 @@ import java.util.Date;
 public class Question {
   private long questionId;
   private String writer;
+  private String userId;
   private String title;
   private String contents;
   private Date createdDate;
   private int countOfAnswer;
 
-  public Question(String writer, String title, String contents) {
-    this(0,writer,title,contents,new Date(),0);
+  public Question(String writer, String userId, String title, String contents) {
+    this(0,writer,userId,title,contents,new Date(),0);
   }
 
-  public Question(long questionId,String writer, String title, String contents, Date createdDate, int countOfAnswer) {
+  public Question(long questionId,String writer, String userId, String title, String contents, Date createdDate, int countOfAnswer) {
     this.questionId = questionId;
     this.writer = writer;
+    this.userId = userId;
     this.title = title;
     this.contents = contents;
     this.createdDate = createdDate;
@@ -37,6 +39,14 @@ public class Question {
 
   public void setWriter(String writer) {
     this.writer = writer;
+  }
+
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
 
   public String getTitle() {
@@ -80,6 +90,7 @@ public class Question {
     return "Question{" +
             "questionId=" + questionId +
             ", writer='" + writer + '\'' +
+            ", userId='" + userId + '\'' +
             ", title='" + title + '\'' +
             ", contents='" + contents + '\'' +
             ", createdDate=" + createdDate +

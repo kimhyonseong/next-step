@@ -11,14 +11,14 @@ import next.model.User;
 public class UserDao {
     public void insert(User user) throws DataAccessException {
         String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        JdbcTemplate jdbcTemplate = JdbcTemplate.getJdbcTemplate();
         jdbcTemplate.update(sql, user.getUserId(),user.getPassword(),user.getName(),user.getEmail());
     }
 
     public User findByUserId(String userId) throws SQLException {
         String sql = "SELECT userId, password, name, email FROM USERS WHERE userid=?";
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        JdbcTemplate jdbcTemplate = JdbcTemplate.getJdbcTemplate();
 
         return jdbcTemplate.queryForObject(sql, (ResultSet rs) -> new User(
                 rs.getString("userId"),
@@ -31,7 +31,7 @@ public class UserDao {
     public List<User> findAll() throws SQLException{
         String sql = "SELECT userId,password,name,email FROM USERS";
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        JdbcTemplate jdbcTemplate = JdbcTemplate.getJdbcTemplate();
 
         return jdbcTemplate.query(sql, (ResultSet rs) -> new User(
                 rs.getString("userId"),
@@ -41,7 +41,7 @@ public class UserDao {
     }
 
     public void update(User user) throws SQLException{
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        JdbcTemplate jdbcTemplate = JdbcTemplate.getJdbcTemplate();
         jdbcTemplate.update("UPDATE USERS set password = ?, name = ?, email = ? WHERE userId = ?",
                 user.getPassword(),
                 user.getName(),
