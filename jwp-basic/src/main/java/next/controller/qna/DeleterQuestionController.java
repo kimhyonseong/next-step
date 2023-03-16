@@ -5,19 +5,13 @@ import core.mvc.ModelAndView;
 import core.mvc.controller.AbstractController;
 import next.dao.AnswerDao;
 import next.dao.QuestionDao;
-import next.model.Answer;
-import next.model.Question;
-import next.model.User;
 import next.service.QnaService;
 import next.utils.UserSessionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 public class DeleterQuestionController extends AbstractController {
-  private QuestionDao questionDao = QuestionDao.getInstance();
-  private AnswerDao answerDao = AnswerDao.getInstance();
   private QnaService qnaService = QnaService.getInstance();
 
   @Override
@@ -37,8 +31,6 @@ public class DeleterQuestionController extends AbstractController {
       return jspView("/error")
               .addObject("errorMsg",e.getMessage());
     }
-
-    questionDao.delete(questionId);
 
     return jspView("redirect:/");
   }

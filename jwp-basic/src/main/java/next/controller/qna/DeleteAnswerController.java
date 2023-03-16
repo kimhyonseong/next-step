@@ -2,12 +2,7 @@ package next.controller.qna;
 
 import core.mvc.ModelAndView;
 import core.mvc.controller.AbstractController;
-import core.mvc.controller.Controller;
-import core.mvc.view.JsonView;
-import core.mvc.view.View;
 import next.dao.AnswerDao;
-import next.dao.QuestionDao;
-import next.model.Question;
 import next.model.Result;
 import next.model.User;
 import next.utils.UserSessionUtils;
