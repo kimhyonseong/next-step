@@ -12,6 +12,11 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class QuestionDao {
+  private static final QuestionDao questionDao = new QuestionDao();
+
+  public static QuestionDao getInstance() {
+    return questionDao;
+  }
   public long insert(Question question) {
     String sql = "INSERT INTO QUESTIONS(writer,title,contents,createdDate) VALUES(?,?,?,?)";
 

@@ -11,11 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ModifyQuestionController extends AbstractController {
+  QuestionDao questionDao = new QuestionDao();
+
   @Override
   public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
     long questionId = Long.parseLong(request.getParameter("questionId"));
     User sessionUser = UserSessionUtils.getUserFromSession(request.getSession());
-    QuestionDao questionDao = new QuestionDao();
     Question question = questionDao.findById(questionId);
 
     if (sessionUser == null) {

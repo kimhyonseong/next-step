@@ -16,6 +16,11 @@ import java.util.List;
 
 public class AnswerDao {
   private static final Logger log = LoggerFactory.getLogger(AnswerDao.class);
+  private static final AnswerDao answerDao = new AnswerDao();
+
+  public static AnswerDao getInstance() {
+    return answerDao;
+  }
 
   public Answer insert(Answer answer) {
     String sql = "INSERT INTO ANSWERS(writer,contents,createdDate,questionId) VALUES(?,?,?,?)";
